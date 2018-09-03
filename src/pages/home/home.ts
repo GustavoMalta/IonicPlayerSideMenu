@@ -17,14 +17,11 @@ export class HomePage {
          
 
     public toca(){
- const arquivo: MediaObject = this.media.create('../assets/lobo.mp3');
- console.log("Tocando arquivo")
+    const arquivo: MediaObject = this.media.create('../assets/lobo.mp3');
+    console.log("Tocando arquivo");
+    
+    arquivo.play();                  
 
-      arquivo.play
-
-
-
-                  
                 }
 
 }
