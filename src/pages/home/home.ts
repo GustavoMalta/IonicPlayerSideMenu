@@ -9,21 +9,22 @@ import { Media, MediaObject } from '@ionic-native/media';
 })
 export class HomePage {
 
+  arquivo: MediaObject ;
+
   constructor(public navCtrl: NavController,
               private media: Media) {
             
   }
-  
-         
 
     public toca(){
-      const arquivo: MediaObject = this.media.create(encodeURI('/storage/sdcard0/DCIM/Podcast MdM Melhores do Mundo1499513298.mp3'));
+
+      this.arquivo = this.media.create('/storage/sdcard0/DCIM/Podcast MdM Melhores do Mundo1499513298.mp3');
 
     //const arquivo: MediaObject = this.media.create('../assets/lobo.mp3');
 
     console.log("Tocando arquivo");
     
-    arquivo.play();                  
+    this.arquivo.play();                  
 
                 }
 
