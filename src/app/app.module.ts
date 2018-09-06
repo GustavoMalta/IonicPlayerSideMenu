@@ -8,6 +8,8 @@ import { ListPage } from '../pages/list/list';
 import {BrowsePageModule} from '../pages/browse/browse.module';
 import { Media } from '@ionic-native/media';
 import { File } from '@ionic-native/file';
+import { FilePath } from '@ionic-native/file-path';
+import { FileChooser } from '@ionic-native/file-chooser';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -34,6 +36,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Media,
+    FilePath,
+    FileChooser,
     File
   ]
 })
