@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController,NavParams } from 'ionic-angular';
 import { Media, MediaObject } from '@ionic-native/media';
 import { LoadingController } from 'ionic-angular';
+import { isObject } from 'ionic-angular/umd/util/util';
 
 
 @Component({
@@ -10,15 +11,28 @@ import { LoadingController } from 'ionic-angular';
 })
 export class HomePage {
 
-  arquivo: MediaObject = this.media.create('/storage/emulated/0/Download/lobo.mp3');
+  arquivo: MediaObject = this.media.create('https://www.sample-videos.com/audio/mp3/crowd-cheering.mp3');///storage/emulated/0/Download/lobo.mp3');
   pause = false;
   pp="play";
   loader: any;
-
+  public first = false;
+  teste;
   constructor(public navCtrl: NavController,
               private media: Media,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              public navParam: NavParams) {
             
+  }
+  ionViewDidEnter() {
+      if (JSON.stringify(this.navParam.data) == '{}'){ //foi o jeito que consegui ver se estava vazio
+        this.teste= 'Dentro do IF'+ JSON.stringify(this.navParam.data);
+        this.teste = JSON.stringify(this.arquivo);
+      }else{
+        this.para();
+       // this.teste= 'Fora do IF'+ JSON.stringify(this.navParam.data);
+        this.arquivo = this.media.create(this.navParam.data);
+        this.teste = JSON.stringify(this.arquivo);
+      }
   }
 
     public toca(){

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, NgZone} from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 //import { File } from '@ionic-native/file';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the BrowsePage page.
@@ -17,23 +18,60 @@ import { FilePath } from '@ionic-native/file-path';
   templateUrl: 'browse.html',
 })
 export class BrowsePage {
-info;
+  info;
+  savedParentNativeURLs = [];
+  items;
+  teste;
     
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               //private file: File,
               private platform: Platform,
               private fileChooser: FileChooser,
-              public filePath: FilePath ) {
+              public filePath: FilePath,
+              public plt: Platform,
+              public ngZone: NgZone ) {
+   plt.ready()
+    .then(() => {
+      this.listRootDir();
+    })
   }
-
-
+  
   ionViewDidLoad() {
-
+    
+    
   }
 
+  listRootDir = () => {
 
-  fileChoose(){
+    const ROOT_DIRECTORY = "file:///sdcard/Download/";
+
+    (<any> window).resolveLocalFileSystemURL(ROOT_DIRECTORY,
+      (fileSystem) => {
+
+        var reader = fileSystem.createReader();
+        reader.readEntries(
+          (entries) => {
+            this.ngZone.run(()=> {
+             // if(entries.name === '.mp3'){
+              this.items = entries;
+              this.teste = JSON.stringify(entries);
+              
+            });
+          }, this.handleError);
+      }, this.handleError);
+  }
+  handleError = error => { //to fix handleError's
+    console.log("error reading,", error);
+  };
+
+  toPlayer(caminho){
+    this.navCtrl.push(HomePage,caminho)
+    
+  }
+
+}
+ /* fileChoose(){
     // choose your file from the device
 	this.fileChooser.open().then(uri => {
 		alert('uri'+JSON.stringify(uri));
@@ -41,7 +79,7 @@ info;
 		this.filePath.resolveNativePath(uri)
 		.then(file => {
 			alert('file'+JSON.stringify(file));
-			/*let filePath: string = file;
+			let filePath: string = file;
 			if (filePath) {
                 // convert your file in base64 format
 				this.base64.encodeFile(filePath)
@@ -50,7 +88,7 @@ info;
 				}, (err) => {
 					alert('err'+JSON.stringify(err));
 				});
-      }*/
+      
 		})
 		.catch(err => console.log(err));
 	})
@@ -58,7 +96,7 @@ info;
   }
 
 }
-
+}*/
 
 
     /*this.platform.ready().then(() => {
