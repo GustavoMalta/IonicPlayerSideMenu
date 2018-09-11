@@ -26,12 +26,12 @@ export class HomePage {
   ionViewDidEnter() {
       if (JSON.stringify(this.navParam.data) == '{}'){ //foi o jeito que consegui ver se estava vazio
         this.teste= 'Dentro do IF'+ JSON.stringify(this.navParam.data);
-        this.teste = JSON.stringify(this.arquivo);
+        this.teste = 'D'+JSON.stringify(this.arquivo);
       }else{
         this.para();
        // this.teste= 'Fora do IF'+ JSON.stringify(this.navParam.data);
         this.arquivo = this.media.create(this.navParam.data);
-        this.teste = JSON.stringify(this.arquivo);
+        this.teste = 'F' +JSON.stringify(this.arquivo);
       }
   }
 

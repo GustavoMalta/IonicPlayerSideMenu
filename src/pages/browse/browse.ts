@@ -66,7 +66,8 @@ export class BrowsePage {
   };
 
   toPlayer(caminho){
-    this.navCtrl.push(HomePage,caminho)
+    this.navCtrl.setRoot(HomePage, caminho);
+
     
   }
 
