@@ -10,9 +10,11 @@ import { Media } from '@ionic-native/media';
 import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
 import { FileChooser } from '@ionic-native/file-chooser';
+import { SQLite } from '@ionic-native/sqlite'
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { BancoProvider } from '../providers/banco/banco';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Media,
     FilePath,
     FileChooser,
-    File
+    File,
+    SQLite,
+    BancoProvider
   ]
 })
 export class AppModule {}

@@ -7,6 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { BrowsePage } from '../pages/browse/browse';
+import { BancoProvider} from '../providers/banco/banco'
 
 @Component({
   templateUrl: 'app.html'
@@ -18,7 +19,10 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, 
+              public statusBar: StatusBar, 
+              public splashScreen: SplashScreen,
+              public banco: BancoProvider) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -35,8 +39,19 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
+
+      this.banco.createDatabase()
+      .then(() => {
+        // fechando a SplashScreen somente quando o banco for criado
+        this.openPage(this.splashScreen);
+      })
+      .catch(() => {
+        // ou se houver erro na criação do banco
+        this.openPage(this.splashScreen);
+      });
     });
+
+      this.splashScreen.hide();
   }
 
   openPage(page) {
