@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController,NavParams } from 'ionic-angular';
 import { Media, MediaObject } from '@ionic-native/media';
 import { LoadingController } from 'ionic-angular';
-import { isObject } from 'ionic-angular/umd/util/util';
+import { ListaProvider } from '../../providers/lista/lista';
 
 
 @Component({
@@ -20,18 +20,25 @@ export class HomePage {
   constructor(public navCtrl: NavController,
               private media: Media,
               public loadingCtrl: LoadingController,
-              public navParam: NavParams) {
+              public navParam: NavParams,
+              public lista: ListaProvider) {
             
   }
   ionViewDidEnter() {
       if (JSON.stringify(this.navParam.data) == '{}'){ //foi o jeito que consegui ver se estava vazio
         this.teste= 'Dentro do IF'+ JSON.stringify(this.navParam.data);
-        this.teste = 'D'+JSON.stringify(this.arquivo);
+        this.lista.getAll()
+            .then((result) => {
+              this.teste = 'D' + JSON.stringify(result);
+            });
       }else{
         this.para();
        // this.teste= 'Fora do IF'+ JSON.stringify(this.navParam.data);
         this.arquivo = this.media.create(this.navParam.data);
-        this.teste = 'F' +JSON.stringify(this.arquivo);
+          this.lista.getAll()
+            .then((result) => {
+              this.teste = 'F' + JSON.stringify(result);
+            });
       }
   }
 
@@ -64,6 +71,12 @@ export class HomePage {
      this.pause = false;  
      this.pp="play";
     }
+
+    public limpaLista(){
+      this.lista.limpa();
+      this.ionViewDidEnter();
+    }
+
 
     private startLoad(load){
       this.loader = this.loadingCtrl.create({

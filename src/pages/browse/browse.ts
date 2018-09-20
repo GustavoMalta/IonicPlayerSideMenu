@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { HomePage } from '../home/home';
+import { ListaProvider } from '../../providers/lista/lista';
 
 /**
  * Generated class for the BrowsePage page.
@@ -30,7 +31,8 @@ export class BrowsePage {
               private fileChooser: FileChooser,
               public filePath: FilePath,
               public plt: Platform,
-              public ngZone: NgZone ) {
+              public ngZone: NgZone,
+              public lista: ListaProvider) {
    plt.ready()
     .then(() => {
       this.listRootDir();
@@ -56,7 +58,6 @@ export class BrowsePage {
              // if(entries.name === '.mp3'){
               this.items = entries;
               this.teste = JSON.stringify(entries);
-              
             });
           }, this.handleError);
       }, this.handleError);
@@ -66,9 +67,8 @@ export class BrowsePage {
   };
 
   toPlayer(caminho){
+    this.lista.insert(caminho);
     this.navCtrl.setRoot(HomePage, caminho);
-
-    
   }
 
 }

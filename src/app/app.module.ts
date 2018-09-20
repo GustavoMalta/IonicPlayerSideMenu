@@ -15,6 +15,8 @@ import { SQLite } from '@ionic-native/sqlite'
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { BancoProvider } from '../providers/banco/banco';
+import { IonicStorageModule } from '@ionic/storage';
+import { ListaProvider } from '../providers/lista/lista';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { BancoProvider } from '../providers/banco/banco';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    BrowsePageModule
+    BrowsePageModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -42,7 +45,7 @@ import { BancoProvider } from '../providers/banco/banco';
     FileChooser,
     File,
     SQLite,
-    BancoProvider
+    ListaProvider
   ]
 })
 export class AppModule {}

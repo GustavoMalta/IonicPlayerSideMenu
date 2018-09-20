@@ -21,8 +21,7 @@ export class MyApp {
 
   constructor(public platform: Platform, 
               public statusBar: StatusBar, 
-              public splashScreen: SplashScreen,
-              public banco: BancoProvider) {
+              public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -40,7 +39,7 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
 
-      this.banco.createDatabase()
+      /*this.banco.createDatabase()
       .then(() => {
         // fechando a SplashScreen somente quando o banco for criado
         this.openPage(this.splashScreen);
@@ -48,7 +47,7 @@ export class MyApp {
       .catch(() => {
         // ou se houver erro na criação do banco
         this.openPage(this.splashScreen);
-      });
+      });*/
     });
 
       this.splashScreen.hide();
