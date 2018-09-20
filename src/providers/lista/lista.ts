@@ -36,7 +36,7 @@ export class ListaProvider {
 
   public getAll() {
 
-    let arquivos: Lista[] = [];
+    let arquivos: Lista[];
 
     return this.storage.forEach((value: string, key: string, iterationNumber: Number) => {
       let arquivo = new Lista();
@@ -52,9 +52,11 @@ export class ListaProvider {
       });
   }
 }
+export class nomes{
+                }
 
 export class Lista {
-  key: string;
-  nome: string;
-  caminho: string;    
+  key: string
+  nome: string
+  caminho: string
 }

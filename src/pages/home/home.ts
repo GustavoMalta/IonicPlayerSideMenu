@@ -26,18 +26,18 @@ export class HomePage {
   }
   ionViewDidEnter() {
       if (JSON.stringify(this.navParam.data) == '{}'){ //foi o jeito que consegui ver se estava vazio
-        this.teste= 'Dentro do IF'+ JSON.stringify(this.navParam.data);
+        this.teste= JSON.stringify(this.navParam);
         this.lista.getAll()
             .then((result) => {
-              this.teste = 'D' + JSON.stringify(result);
+              this.teste = JSON.stringify(result);
             });
       }else{
         this.para();
        // this.teste= 'Fora do IF'+ JSON.stringify(this.navParam.data);
-        this.arquivo = this.media.create(this.navParam.data);
+        this.arquivo = this.media.create(this.navParam);
           this.lista.getAll()
             .then((result) => {
-              this.teste = 'F' + JSON.stringify(result);
+              this.teste = JSON.stringify(result);
             });
       }
   }
