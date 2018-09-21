@@ -16,7 +16,7 @@ export class HomePage {
   pp="play";
   loader: any;
   public first = false;
-  teste;
+  teste=[];
   constructor(public navCtrl: NavController,
               private media: Media,
               public loadingCtrl: LoadingController,
@@ -26,18 +26,18 @@ export class HomePage {
   }
   ionViewDidEnter() {
       if (JSON.stringify(this.navParam.data) == '{}'){ //foi o jeito que consegui ver se estava vazio
-        this.teste= JSON.stringify(this.navParam);
+        //this.teste= this.navParam;
         this.lista.getAll()
             .then((result) => {
-              this.teste = JSON.stringify(result);
+              this.teste = result;
             });
       }else{
         this.para();
        // this.teste= 'Fora do IF'+ JSON.stringify(this.navParam.data);
-        this.arquivo = this.media.create(this.navParam);
+        this.arquivo = this.media.create(this.navParam.data);
           this.lista.getAll()
             .then((result) => {
-              this.teste = JSON.stringify(result);
+              this.teste = result;
             });
       }
   }

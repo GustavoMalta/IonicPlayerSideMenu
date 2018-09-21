@@ -9,7 +9,8 @@
 
 <ion-content padding>
   <h3>Ionic Player</h3>
-  <p >{{teste}}</p>
+
+  <p *ngFor="let m of teste" align="left">{{m.nome}}</p>
 
   <button ion-button secondary (click)="limpaLista()">Limpa lista</button><br>
 
