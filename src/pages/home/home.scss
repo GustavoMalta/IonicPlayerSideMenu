@@ -1,11 +1,19 @@
 page-home {
 
-    div{
+    div#player{
         ion-icon{
         margin: 10px;
         zoom:2.0;
         }
     }
+    
+    div#playlist{
+        ion-card-content{
+            text-align: left;
+            align-content: right;
+        }
+    }
+
     ion-content{
         text-align: center
     }

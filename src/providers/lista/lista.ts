@@ -13,17 +13,20 @@ export class ListaProvider {
   
  
 
-  public insert(caminho: string) {
-    let key = Math.random().toString(36).replace(/[^a-z]+/g, '')
-    return this.save(key, caminho);
+  public insert(caminho:string, arquivo: string) {
+   //let key = Math.random().toString(36).replace(/[^a-z]+/g, '')
+    return this.save(caminho, arquivo);
   }
  
-  public update(key: string, caminho: string) {
-    return this.save(key, caminho);
+  public update(key: string, arquivo:string) {
+    return this.save(key, arquivo);
   }
  
-  private save(key: string, caminho: string) {
-    return this.storage.set(key, caminho);
+  private save(key: string, arquivo:string) {
+    //let temptemp.caminho=caminho; temp.nome=nome;
+    
+   
+    return this.storage.set(key,arquivo);
   }
  
   public remove(key: string) {
@@ -39,10 +42,10 @@ export class ListaProvider {
     let arquivos: Lista[]=[];
 
     return this.storage.forEach((value: string, key: string, iterationNumber: Number) => {
-      let arquivo = new Lista();
-      arquivo.key = key;
-      arquivo.nome = value;
-      arquivos.push(arquivo);
+      let file = new Lista();
+      file.path = key;
+      file.nome = value;
+      arquivos.push(file);
     })
       .then(() => {
         return Promise.resolve(arquivos);
@@ -52,11 +55,12 @@ export class ListaProvider {
       });
   }
 }
-export class nomes{
+/*export class arquivo{
+  nome: string;
+  caminho: string;
                 }
-
+*/
 export class Lista {
-  key: string
-  nome: string
-  caminho: string
+  path: string;
+  nome: string;
 }

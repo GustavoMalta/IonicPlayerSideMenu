@@ -16,7 +16,7 @@
 
 <ion-content padding>
     <br>
-    <!--h3>{{teste xx}}</h3-->
+    <!--h3>{{teste}}</h3-->
 
     <ion-card *ngFor="let item of items">
       <ion-card-header></ion-card-header>
@@ -24,13 +24,13 @@
         Directory: {{item.name}}
       </ion-card-content>
   
-      <ion-card-content *ngIf="item.isFile" (click)="toPlayer(item.fullPath)">
+      <ion-card-content *ngIf="item.isFile" (click)="toPlayer(item.name, item.fullPath)">
         File: {{item.name}}<br>
         Path: {{item.fullPath}} 
 
       </ion-card-content>
   
-    </ion-card>>
+    </ion-card>
     <!--button ion-button (click)="click()">button</button  (click)="goDown(item)"-->
 
 </ion-content>

@@ -66,8 +66,8 @@ export class BrowsePage {
     console.log("error reading,", error);
   };
 
-  toPlayer(caminho){
-    this.lista.insert(caminho);
+  toPlayer(nome, caminho){
+    this.lista.insert(caminho,nome);
     this.navCtrl.setRoot(HomePage, caminho);
   }
 

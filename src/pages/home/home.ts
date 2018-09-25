@@ -3,6 +3,7 @@ import { NavController,NavParams } from 'ionic-angular';
 import { Media, MediaObject } from '@ionic-native/media';
 import { LoadingController } from 'ionic-angular';
 import { ListaProvider } from '../../providers/lista/lista';
+import { stringify } from '@angular/core/src/render3/util';
 
 
 @Component({
@@ -15,8 +16,8 @@ export class HomePage {
   pause = false;
   pp="play";
   loader: any;
-  public first = false;
-  teste=[];
+  teste = "";
+  file=[];
   constructor(public navCtrl: NavController,
               private media: Media,
               public loadingCtrl: LoadingController,
@@ -29,7 +30,8 @@ export class HomePage {
         //this.teste= this.navParam;
         this.lista.getAll()
             .then((result) => {
-              this.teste = result;
+              this.file = result;
+              this.teste= JSON.stringify(result);
             });
       }else{
         this.para();
@@ -37,7 +39,8 @@ export class HomePage {
         this.arquivo = this.media.create(this.navParam.data);
           this.lista.getAll()
             .then((result) => {
-              this.teste = result;
+              this.file = result;
+              this.teste= JSON.stringify(result);
             });
       }
   }
