@@ -23,8 +23,6 @@ export class BrowsePage {
   savedParentNativeURLs = [];
   items;
   teste;
-
-  insere: Arquivo;
     
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -56,10 +54,23 @@ export class BrowsePage {
         var reader = fileSystem.createReader();
         reader.readEntries(
           (entries) => {
-            this.ngZone.run(()=> {
-             // if(entries.name === '.mp3'){
+            /* entries.forEach(element => {
+                 if(!(element.name.indexOf('.mp3')>=0) && !(element.isDirectory))  {
+                  this.info = this.info+1
+                  delete entries[this.info]
+
+                 }
+               });*/
+            
+               entries.forEach(element => {
+                if(!(element.name.indexOf('.mp3')>=0)){
+                  delete entries.indexOf[10]
+                }
+               });
+              
+              this.ngZone.run(()=> {
               this.items = entries;
-              this.teste = JSON.stringify(entries);
+              this.teste = JSON.stringify(entries); 
             });
           }, this.handleError);
       }, this.handleError);
@@ -73,7 +84,50 @@ export class BrowsePage {
     this.navCtrl.setRoot(HomePage, caminho);
   }
 
+goDown (item){
+  let childName = this.items[0].name;
+  let childNativeURL = this.items[0].nativeURL;
+
+  const parentNativeURL = childNativeURL.replace(childName, "");
+
+  this.savedParentNativeURLs.push(parentNativeURL);
+
+  var reader = item.createReader();
+
+  reader.readEntries(children => {
+    this.ngZone.run(() => {
+      this.items = children;
+    });
+  }, this.handleError);
+
+};
+
+goUp(){
+  const parentNativeURL = this.savedParentNativeURLs.pop();
+
+    (<any> window).resolveLocalFileSystemURL(parentNativeURL,
+      (fileSystem) => {
+
+        var reader = fileSystem.createReader();
+
+        reader.readEntries(
+          (entries) => {
+            this.ngZone.run(()=> {
+              this.items = entries;
+            })
+          }, this.handleError);
+      }, this.handleError);
 }
+
+
+
+}
+
+
+
+
+
+
  /* fileChoose(){
     // choose your file from the device
 	this.fileChooser.open().then(uri => {

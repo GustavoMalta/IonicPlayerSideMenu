@@ -17,19 +17,23 @@
 <ion-content padding>
     <br>
     <!--h3>{{teste}}</h3-->
-
+    <button ion-button (click)="goUp()" color="secondary" block>
+      Go up
+    </button>
+      <p>{{info}}</p><br>  
+      <p>{{teste}}</p>
     <ion-card *ngFor="let item of items">
       <ion-card-header></ion-card-header>
-      <ion-card-content *ngIf="item.isDirectory" >
-        Directory: {{item.name}}
+      <ion-card-content *ngIf="item.isDirectory" (click)="goDown(item)">
+        <ion-icon name="folder"></ion-icon> Directory: {{item.name}}
       </ion-card-content>
-  
-      <ion-card-content *ngIf="item.isFile" (click)="toPlayer({'nome':item.name,'caminho':item.fullPath}, item.fullPath)">
-        File: {{item.name}}<br>
-        Path: {{item.fullPath}} 
+    </ion-card>
+    <ion-card *ngFor="let item of items">
+      <ion-card-content *ngIf="item.name.indexOf('.mp3')>=0" (click)="toPlayer({'nome':item.name,'caminho':item.fullPath}, item.fullPath)">
+        <ion-icon name="musical-notes"></ion-icon> File: {{item.name}}
+        <!--<br>Path: {{item.fullPath}} -->
+      </ion-card-content>
 
-      </ion-card-content>
-  
     </ion-card>
     <!--button ion-button (click)="click()">button</button  (click)="goDown(item)"-->
 
