@@ -24,7 +24,7 @@
         Directory: {{item.name}}
       </ion-card-content>
   
-      <ion-card-content *ngIf="item.isFile" (click)="toPlayer(item.name, item.fullPath)">
+      <ion-card-content *ngIf="item.isFile" (click)="toPlayer({'nome':item.name,'caminho':item.fullPath}, item.fullPath)">
         File: {{item.name}}<br>
         Path: {{item.fullPath}} 
 

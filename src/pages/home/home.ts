@@ -23,10 +23,10 @@ export class HomePage {
               public loadingCtrl: LoadingController,
               public navParam: NavParams,
               public lista: ListaProvider) {
-            
   }
+  
   ionViewDidEnter() {
-      if (JSON.stringify(this.navParam.data) == '{}'){ //foi o jeito que consegui ver se estava vazio
+      if (!(this.navParam.data.contact && this.navParam.data.key)){ //foi o jeito que consegui ver se estava vazio
         //this.teste= this.navParam;
         this.lista.getAll()
             .then((result) => {
@@ -45,10 +45,13 @@ export class HomePage {
       }
   }
 
-    public toca(){
+    public toca(caminho:string){
     //  this.arquivo = this.media.create('/storage/sdcard0/DCIM/Podcast MdM Melhores do Mundo1499513298.mp3');
     //const arquivo: MediaObject = this.media.create('https://www.sample-videos.com/audio/mp3/crowd-cheering.mp3');
-
+    if (caminho){
+      this.para();
+      this.arquivo = this.media.create(caminho);
+    }
       if (this.pp=="play"){
         this.pp="pause";
         console.log("Tocando arquivo");

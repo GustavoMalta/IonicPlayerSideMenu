@@ -1,7 +1,7 @@
 //import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
-import {Storage } from '@ionic/storage'
+import { Storage } from '@ionic/storage'
 import { DatePipe } from '@angular/common';
 
 @Injectable()
@@ -13,20 +13,18 @@ export class ListaProvider {
   
  
 
-  public insert(caminho:string, arquivo: string) {
-   //let key = Math.random().toString(36).replace(/[^a-z]+/g, '')
-    return this.save(caminho, arquivo);
-  }
- 
-  public update(key: string, arquivo:string) {
+  public insert(arquivo: Arquivo) {
+   let key = Math.random().toString(36).replace(/[^a-z]+/g, '')
     return this.save(key, arquivo);
   }
  
-  private save(key: string, arquivo:string) {
-    //let temptemp.caminho=caminho; temp.nome=nome;
-    
-   
-    return this.storage.set(key,arquivo);
+  public update(key: string, arquivo:Arquivo) {
+    return this.save(key, arquivo);
+  }
+ 
+  private save(key: string, arquivo:Arquivo) {
+    //let temptemp.caminho=caminho; temp.nome=nome;   
+    return this.storage.set(key, arquivo);
   }
  
   public remove(key: string) {
@@ -41,10 +39,10 @@ export class ListaProvider {
 
     let arquivos: Lista[]=[];
 
-    return this.storage.forEach((value: string, key: string, iterationNumber: Number) => {
+    return this.storage.forEach((value: Arquivo, key: string, iterationNumber: Number) => {
       let file = new Lista();
-      file.path = key;
-      file.nome = value;
+      file.key = key;
+      file.arquivo = value;
       arquivos.push(file);
     })
       .then(() => {
@@ -55,12 +53,13 @@ export class ListaProvider {
       });
   }
 }
-/*export class arquivo{
+export class Arquivo{
   nome: string;
   caminho: string;
-                }
-*/
+}
+
+
 export class Lista {
-  path: string;
-  nome: string;
+  key: string;
+  arquivo: Arquivo;
 }

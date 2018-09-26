@@ -13,7 +13,7 @@
   <ion-card *ngFor="let m of file">
   <div id="playlist">
     <ion-card-content>
-        <ion-icon name="musical-notes">  {{m.nome}}</ion-icon>
+        <ion-icon name="musical-notes" (click)="toca(m.arquivo.caminho)">  {{m.arquivo.nome}}</ion-icon>
     </ion-card-content>
   </div>
 

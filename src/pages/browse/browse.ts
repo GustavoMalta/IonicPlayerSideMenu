@@ -4,7 +4,7 @@ import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { HomePage } from '../home/home';
-import { ListaProvider } from '../../providers/lista/lista';
+import { ListaProvider, Arquivo } from '../../providers/lista/lista';
 
 /**
  * Generated class for the BrowsePage page.
@@ -23,6 +23,8 @@ export class BrowsePage {
   savedParentNativeURLs = [];
   items;
   teste;
+
+  insere: Arquivo;
     
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -66,8 +68,8 @@ export class BrowsePage {
     console.log("error reading,", error);
   };
 
-  toPlayer(nome, caminho){
-    this.lista.insert(caminho,nome);
+  toPlayer(arquivo, caminho){
+    this.lista.insert(arquivo);
     this.navCtrl.setRoot(HomePage, caminho);
   }
 
