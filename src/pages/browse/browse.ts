@@ -1,10 +1,14 @@
 import { Component, NgZone} from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, List } from 'ionic-angular';
 //import { File } from '@ionic-native/file';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { HomePage } from '../home/home';
-import { ListaProvider, Arquivo } from '../../providers/lista/lista';
+import { ListaProvider, Arquivo, Lista } from '../../providers/lista/lista';
+import { elementEnd } from '@angular/core/src/render3/instructions';
+import { JsonPipe } from '@angular/common';
+import { stringify } from '@angular/compiler/src/util';
+import { TypeModifier } from '@angular/compiler/src/output/output_ast';
 
 /**
  * Generated class for the BrowsePage page.
@@ -54,7 +58,7 @@ export class BrowsePage {
         var reader = fileSystem.createReader();
         reader.readEntries(
           (entries) => {
-            /* entries.forEach(element => {
+             entries.forEach(element => {
                  if(!(element.name.indexOf('.mp3')>=0) && !(element.isDirectory))  {
                   this.info = this.info+1
                   delete entries[this.info]
@@ -67,27 +71,52 @@ export class BrowsePage {
                   delete entries.indexOf[10]
                 }
                });
-              */
+              
              
               this.ngZone.run(()=> {
-                this.info='[';
+                this.info='';
+                let x=true;
 
-                entries.forEach(element => {
-                  if((element.name.indexOf(".mp3")>=0))  {
-                    if()
-                   this.info = this.info+JSON.stringify(element)+',';
-                  
+               entries.forEach(element => { //se é um diretorio
+                  if(element.isDirectory){
+                      if(x){
+                        this.info='[';
+                        this.info = this.info + JSON.stringify(element);
+                        x=false;
+                      }else{
+                        this.info = this.info + ',' + JSON.stringify(element);
+                      }
                   }
                 });
-               this.info = this.info + ']';
-              //this.items=this.info;
-              this.teste = JSON.stringify(this.info); 
+
+                entries.forEach(element => { //se é um mp3
+                  if((element.name.indexOf(".mp3")>=0)){
+                      if(x){
+                        this.info='[';
+                        this.info = this.info + JSON.stringify(element);
+                        x=false;
+                      }else{
+                        this.info = this.info + ',' + JSON.stringify(element);
+                      }
+                  }
+                });
+              this.info = this.info + ']';
+
+              this.info = JSON.parse(this.info);
+                
+              this.items = entries;
+
+              
+              this.teste = JSON.stringify(this.items); 
             });
           }, this.handleError);
       }, this.handleError);
+
+   
   }
   handleError = error => { //to fix handleError's
     console.log("error reading,", error);
+
   };
 
   toPlayer(arquivo, caminho){
@@ -96,22 +125,32 @@ export class BrowsePage {
   }
 
 goDown (item){
-  let childName = this.items[0].name;
-  let childNativeURL = this.items[0].nativeURL;
+    let childName = this.items[0].name;
+    let childNativeURL = this.items[0].nativeURL;
 
-  const parentNativeURL = childNativeURL.replace(childName, "");
+    const parentNativeURL = childNativeURL.replace(childName, "");
 
-  this.savedParentNativeURLs.push(parentNativeURL);
+    this.savedParentNativeURLs.push(parentNativeURL);
 
-  var reader = item.createReader();
 
-  reader.readEntries(children => {
-    this.ngZone.run(() => {
-      this.items = children;
-    });
-  }, this.handleError);
+   
 
-};
+    this.items.forEach(temp => { 
+    if((temp.nativeURL.indexOf(item.nativeURL)>=0)){
+      var reader = temp.createReader();
+      
+      this.teste = JSON.stringify(temp.createReader());
+
+      reader.readEntries(children => {
+        this.ngZone.run(() => {
+          temp = children;
+      });
+    }, this.handleError);
+  }
+});
+    
+  
+}
 
 goUp(){
   const parentNativeURL = this.savedParentNativeURLs.pop();
