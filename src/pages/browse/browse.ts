@@ -60,17 +60,28 @@ export class BrowsePage {
                   delete entries[this.info]
 
                  }
-               });*/
+               });
             
                entries.forEach(element => {
                 if(!(element.name.indexOf('.mp3')>=0)){
                   delete entries.indexOf[10]
                 }
                });
-              
+              */
+             
               this.ngZone.run(()=> {
-              this.items = entries;
-              this.teste = JSON.stringify(entries); 
+                this.info='[';
+
+                entries.forEach(element => {
+                  if((element.name.indexOf(".mp3")>=0))  {
+                    if()
+                   this.info = this.info+JSON.stringify(element)+',';
+                  
+                  }
+                });
+               this.info = this.info + ']';
+              //this.items=this.info;
+              this.teste = JSON.stringify(this.info); 
             });
           }, this.handleError);
       }, this.handleError);
