@@ -23,9 +23,9 @@ import { TypeModifier } from '@angular/compiler/src/output/output_ast';
   templateUrl: 'browse.html',
 })
 export class BrowsePage {
-  info;
+  itensFiltrado;
   savedParentNativeURLs = [];
-  items;
+  ItensCompelto;
   teste;
     
   constructor(public navCtrl: NavController, 
@@ -58,56 +58,16 @@ export class BrowsePage {
         var reader = fileSystem.createReader();
         reader.readEntries(
           (entries) => {
-             entries.forEach(element => {
-                 if(!(element.name.indexOf('.mp3')>=0) && !(element.isDirectory))  {
-                  this.info = this.info+1
-                  delete entries[this.info]
 
-                 }
-               });
-            
-               entries.forEach(element => {
-                if(!(element.name.indexOf('.mp3')>=0)){
-                  delete entries.indexOf[10]
-                }
-               });
-              
-             
               this.ngZone.run(()=> {
-                this.info='';
-                let x=true;
-
-               entries.forEach(element => { //se é um diretorio
-                  if(element.isDirectory){
-                      if(x){
-                        this.info='[';
-                        this.info = this.info + JSON.stringify(element);
-                        x=false;
-                      }else{
-                        this.info = this.info + ',' + JSON.stringify(element);
-                      }
-                  }
-                });
-
-                entries.forEach(element => { //se é um mp3
-                  if((element.name.indexOf(".mp3")>=0)){
-                      if(x){
-                        this.info='[';
-                        this.info = this.info + JSON.stringify(element);
-                        x=false;
-                      }else{
-                        this.info = this.info + ',' + JSON.stringify(element);
-                      }
-                  }
-                });
-              this.info = this.info + ']';
-
-              this.info = JSON.parse(this.info);
+                this.itensFiltrado='';
                 
-              this.items = entries;
+              this.itensFiltrado = this.filtro(entries);
+                
+              this.ItensCompelto = entries;
 
               
-              this.teste = JSON.stringify(this.items); 
+              this.teste = JSON.stringify(this.ItensCompelto); 
             });
           }, this.handleError);
       }, this.handleError);
@@ -125,28 +85,28 @@ export class BrowsePage {
   }
 
 goDown (item){
-    let childName = this.items[0].name;
-    let childNativeURL = this.items[0].nativeURL;
+    let childName = this.ItensCompelto[0].name;
+    let childNativeURL = this.ItensCompelto[0].nativeURL;
 
     const parentNativeURL = childNativeURL.replace(childName, "");
 
     this.savedParentNativeURLs.push(parentNativeURL);
 
+    this.ItensCompelto.forEach(temp => { 
+      if((temp.nativeURL.indexOf(item.nativeURL)>=0)){
+        var reader = temp.createReader();
+        
+        //this.teste = JSON.stringify(temp.createReader());
 
-   
-
-    this.items.forEach(temp => { 
-    if((temp.nativeURL.indexOf(item.nativeURL)>=0)){
-      var reader = temp.createReader();
-      
-      this.teste = JSON.stringify(temp.createReader());
-
-      reader.readEntries(children => {
-        this.ngZone.run(() => {
-          temp = children;
-      });
-    }, this.handleError);
-  }
+        reader.readEntries(children => {
+          this.ngZone.run(() => {
+            this.itensFiltrado = this.filtro(children);
+            this.teste = JSON.stringify(children);
+        });
+      }, this.handleError);
+    }
+    
+  console.log('depois'+JSON.stringify(this.itensFiltrado));
 });
     
   
@@ -163,96 +123,48 @@ goUp(){
         reader.readEntries(
           (entries) => {
             this.ngZone.run(()=> {
-              this.items = entries;
+              this.itensFiltrado = this.filtro(entries);
             })
           }, this.handleError);
       }, this.handleError);
 }
 
-
-
-}
-
-
-
-
-
-
- /* fileChoose(){
-    // choose your file from the device
-	this.fileChooser.open().then(uri => {
-		alert('uri'+JSON.stringify(uri));
-        // get file path
-		this.filePath.resolveNativePath(uri)
-		.then(file => {
-			alert('file'+JSON.stringify(file));
-			let filePath: string = file;
-			if (filePath) {
-                // convert your file in base64 format
-				this.base64.encodeFile(filePath)
-                .then((base64File: string) => {
-					alert('base64File'+JSON.stringify(base64File));
-				}, (err) => {
-					alert('err'+JSON.stringify(err));
-				});
-      
-		})
-		.catch(err => console.log(err));
-	})
-	.catch(e => alert('uri'+JSON.stringify(e)));
-  }
-
-}
-}*/
-
-
-    /*this.platform.ready().then(() => {
-      this.file.listDir(this.file.externalDataDirectory,'').then((result)=>{
-       console.log(result);
-      //result will have an array of file objects with 
-      //file details or if its a directory
-      for(let file of result){
-        if(file.isDirectory == true && file.name !='.' && file.name !='..'){
-        // Code if its a folder
-      }else if(file.isFile == true){
-        // Code if its a file
-        let name=file.name // File name
-        let path=file.path // File path
-          file.getMetadata(function (metadata) {
-        let size=metadata.size; // Get file size
-          })
-      }
+filtro(pasta){
+  let x=true;
+  let filtrado;
+  console.log('antes'+JSON.stringify(pasta));
+  //if(completo.hasReadEntries)
+  pasta.forEach(element => { //se é um diretorio
+    if(element.isDirectory){
+        if(x){
+          filtrado='[';
+          filtrado = filtrado + JSON.stringify(element);
+          x=false;
+        }else{
+          filtrado = filtrado + ',' + JSON.stringify(element);
         }
-      })
-      })
-      
+    }
+  });
 
-     this.platform.ready().then(() => {
-   console.log('ionViewDidLoad BrowsePage');
-    this.file.listDir('/storage/emulated/0/Download/', '').then(list => {
-      this.info = JSON.parse(list.toString());
-    }).catch(err => {
-      //receives err = { "code": "JSON error } in Android 4.4
-    });
-     this.file.listDir('/storage/emulated/0/Download/','');
-  }*/
+  pasta.forEach(element => { //se é um mp3
+    if((element.name.indexOf(".mp3")>=0)){
+        if(x){
+          filtrado='[';
+          filtrado = filtrado + JSON.stringify(element);
+          x=false;
+        }else{
+          filtrado = filtrado + ',' + JSON.stringify(element);
+        }
+    }
+  
   
 
-  /*onDeviceReady(){
+});
+  if(x){
+    return JSON.parse('[{"isVazio":true}]')
   }
-    
-      public teste(){
+  filtrado = filtrado + ']';
+  return JSON.parse(filtrado);
+}
 
-        window.plugins.mfilechooser.open(['.mp3'], function (uri) {
-
-          alert(uri);
-    
-        }, function (error) {
-    
-            alert(error);
-    
-        });
-
-
-      }*/
-
+}
