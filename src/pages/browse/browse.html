@@ -22,6 +22,7 @@
     </button>
       <!--p>info {{itensFiltrado}}</p><br>  
       <p>teste {{teste}}</p-->
+        <p>{{dirAtual}}</p>
     <ion-card *ngFor="let item of itensFiltrado">
       <ion-card-header></ion-card-header>
       <ion-card-content *ngIf="item.isDirectory" (click)="goDown(item)">

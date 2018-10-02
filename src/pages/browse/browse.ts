@@ -27,6 +27,7 @@ export class BrowsePage {
   savedParentNativeURLs = [];
   ItensCompelto;
   teste;
+  dirAtual;
     
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -50,12 +51,14 @@ export class BrowsePage {
 
   listRootDir = () => {
 
-    const ROOT_DIRECTORY = "file:///sdcard/Download/";
+    const ROOT_DIRECTORY = "file:///sdcard/";
+    this.dirAtual = ROOT_DIRECTORY;
 
     (<any> window).resolveLocalFileSystemURL(ROOT_DIRECTORY,
       (fileSystem) => {
 
         var reader = fileSystem.createReader();
+        this.dirAtual=(reader.localURL);
         reader.readEntries(
           (entries) => {
 
@@ -64,7 +67,6 @@ export class BrowsePage {
                 
               this.itensFiltrado = this.filtro(entries);
                 
-              this.ItensCompelto = entries;
 
               
               this.teste = JSON.stringify(this.ItensCompelto); 
@@ -95,6 +97,7 @@ goDown (item){
     this.ItensCompelto.forEach(temp => { 
       if((temp.nativeURL.indexOf(item.nativeURL)>=0)){
         var reader = temp.createReader();
+        this.dirAtual=(reader.localURL);
         
         //this.teste = JSON.stringify(temp.createReader());
 
@@ -119,6 +122,7 @@ goUp(){
       (fileSystem) => {
 
         var reader = fileSystem.createReader();
+        this.dirAtual=(reader.localURL);
 
         reader.readEntries(
           (entries) => {
@@ -132,6 +136,7 @@ goUp(){
 filtro(pasta){
   let x=true;
   let filtrado;
+  this.ItensCompelto = pasta;
   console.log('antes'+JSON.stringify(pasta));
   //if(completo.hasReadEntries)
   pasta.forEach(element => { //se é um diretorio
@@ -156,9 +161,6 @@ filtro(pasta){
           filtrado = filtrado + ',' + JSON.stringify(element);
         }
     }
-  
-  
-
 });
   if(x){
     return JSON.parse('[{"isVazio":true}]')
