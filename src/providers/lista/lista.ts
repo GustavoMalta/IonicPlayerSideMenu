@@ -2,7 +2,6 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Storage } from '@ionic/storage'
-import { DatePipe } from '@angular/common';
 
 @Injectable()
 export class ListaProvider {
@@ -13,8 +12,14 @@ export class ListaProvider {
   
  
 
-  public insert(arquivo: Arquivo) {
-   let key = Math.random().toString(36).replace(/[^a-z]+/g, '')
+  public insert(arquivo: Arquivo, key:string) {
+   
+    //let key = Math.random().toString(36).replace(/[^a-z]+/g, '')
+   //console.log(this.storage(key));
+    console.log("Ja existe na lista!!");
+   
+   console.log("Json" + JSON.stringify(arquivo));
+   
     return this.save(key, arquivo);
   }
  
@@ -24,6 +29,7 @@ export class ListaProvider {
  
   private save(key: string, arquivo:Arquivo) {
     //let temptemp.caminho=caminho; temp.nome=nome;   
+    console.log("set" + JSON.stringify(this.storage.(key)));
     return this.storage.set(key, arquivo);
   }
  
@@ -53,6 +59,7 @@ export class ListaProvider {
       });
   }
 }
+
 export class Arquivo{
   nome: string;
   caminho: string;

@@ -88,6 +88,6 @@
     <plugin name="cordova-plugin-filechooser" spec="^1.0.1" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-sqlite-storage" spec="^2.4.0" />
-    <allow-navigation href="http://192.168.1.101:8100" sessionid="3369657b" />
+    <allow-navigation href="http://192.168.1.101:8100" sessionid="dc3a08ad" />
     <engine name="android" spec="7.0.0" />
 </widget>

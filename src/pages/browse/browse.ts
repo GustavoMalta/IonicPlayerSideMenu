@@ -71,9 +71,9 @@ export class BrowsePage {
 
   };
 
-  toPlayer(arquivo, caminho){
-    this.lista.insert(arquivo);
-    this.navCtrl.setRoot(HomePage, caminho);
+toPlayer(arquivo, key){
+    this.lista.insert(arquivo,key);
+    //this.navCtrl.setRoot(HomePage, caminho);
   }
 
 goDown (item){
@@ -94,6 +94,7 @@ goDown (item){
         reader.readEntries(children => {
           this.ngZone.run(() => {
             this.itensFiltrado = this.filtro(children);
+           // console.log(JSON.stringify(this.itensFiltrado));
             this.teste = JSON.stringify(children);
         });
       }, this.handleError);

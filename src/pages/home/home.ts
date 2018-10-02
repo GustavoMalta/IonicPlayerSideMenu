@@ -26,7 +26,6 @@ export class HomePage {
   
   ionViewDidEnter() {
       if (!(this.navParam.data.contact && this.navParam.data.key)){ //foi o jeito que consegui ver se estava vazio
-        //this.teste= this.navParam;
         this.lista.getAll()
             .then((result) => {
               this.file = result;
@@ -34,7 +33,6 @@ export class HomePage {
             });
       }else{
         this.para();
-       // this.teste= 'Fora do IF'+ JSON.stringify(this.navParam.data);
         this.arquivo = this.media.create(this.navParam.data);
           this.lista.getAll()
             .then((result) => {
@@ -44,10 +42,8 @@ export class HomePage {
       }
   }
 
-    public toca(caminho:string){
-    //  this.arquivo = this.media.create('/storage/sdcard0/DCIM/Podcast MdM Melhores do Mundo1499513298.mp3');
-    //const arquivo: MediaObject = this.media.create('https://www.sample-videos.com/audio/mp3/crowd-cheering.mp3');
-    if (caminho){
+toca(caminho:string){
+   if (caminho){
       this.para();
       this.arquivo = this.media.create(caminho);
     }
@@ -70,27 +66,27 @@ export class HomePage {
     }
 
 
-    public para(){
+ para(){
      console.log("parando arquivo");
      this.arquivo.stop();   
      this.pause = false;  
      this.pp="play";
     }
 
-    public limpaLista(){
+ limpaLista(){
       this.lista.limpa();
       this.ionViewDidEnter();
     }
 
 
-    private startLoad(load){
+private startLoad(load){
       this.loader = this.loadingCtrl.create({
       content: load,
       }); 
     this.loader.present();
     }
 
-    private endLoad(){
+private endLoad(){
       this.loader.dismiss();
     }
 }
