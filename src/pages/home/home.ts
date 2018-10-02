@@ -3,7 +3,6 @@ import { NavController,NavParams } from 'ionic-angular';
 import { Media, MediaObject } from '@ionic-native/media';
 import { LoadingController } from 'ionic-angular';
 import { ListaProvider } from '../../providers/lista/lista';
-import { stringify } from '@angular/core/src/render3/util';
 
 
 @Component({

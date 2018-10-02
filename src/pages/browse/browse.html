@@ -24,7 +24,6 @@
       <p>teste {{teste}}</p-->
         <p>{{dirAtual}}</p>
     <ion-card *ngFor="let item of itensFiltrado">
-      <ion-card-header></ion-card-header>
       <ion-card-content *ngIf="item.isDirectory" (click)="goDown(item)">
         <ion-icon name="folder"></ion-icon> {{item.name}}
       </ion-card-content>

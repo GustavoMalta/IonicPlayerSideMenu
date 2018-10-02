@@ -1,21 +1,9 @@
 import { Component, NgZone} from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, List } from 'ionic-angular';
-//import { File } from '@ionic-native/file';
-import { FileChooser } from '@ionic-native/file-chooser';
+import { IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import { FilePath } from '@ionic-native/file-path';
 import { HomePage } from '../home/home';
-import { ListaProvider, Arquivo, Lista } from '../../providers/lista/lista';
-import { elementEnd } from '@angular/core/src/render3/instructions';
-import { JsonPipe } from '@angular/common';
-import { stringify } from '@angular/compiler/src/util';
-import { TypeModifier } from '@angular/compiler/src/output/output_ast';
+import { ListaProvider, } from '../../providers/lista/lista';
 
-/**
- * Generated class for the BrowsePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -31,21 +19,23 @@ export class BrowsePage {
     
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              //private file: File,
               private platform: Platform,
-              private fileChooser: FileChooser,
               public filePath: FilePath,
-              public plt: Platform,
               public ngZone: NgZone,
               public lista: ListaProvider) {
-   plt.ready()
+    platform.ready()
     .then(() => {
       this.listRootDir();
     })
+
+    this.platform.registerBackButtonAction(() => {
+      
+       this.goUp();
+      
+    });
   }
   
   ionViewDidLoad() {
-    
     
   }
 
@@ -97,7 +87,7 @@ goDown (item){
     this.ItensCompelto.forEach(temp => { 
       if((temp.nativeURL.indexOf(item.nativeURL)>=0)){
         var reader = temp.createReader();
-        this.dirAtual=(reader.localURL);
+        this.dirAtual=(reader);
         
         //this.teste = JSON.stringify(temp.createReader());
 
@@ -109,35 +99,37 @@ goDown (item){
       }, this.handleError);
     }
     
-  console.log('depois'+JSON.stringify(this.itensFiltrado));
+ // console.log('depois'+JSON.stringify(this.itensFiltrado));
 });
     
   
 }
 
 goUp(){
-  const parentNativeURL = this.savedParentNativeURLs.pop();
+  if (this.dirAtual.localURL){ //quando nao existe localURL. esta no diretorio Raiz
+    const parentNativeURL = this.savedParentNativeURLs.pop();
 
-    (<any> window).resolveLocalFileSystemURL(parentNativeURL,
-      (fileSystem) => {
+      (<any> window).resolveLocalFileSystemURL(parentNativeURL,
+        (fileSystem) => {
 
-        var reader = fileSystem.createReader();
-        this.dirAtual=(reader.localURL);
+          var reader = fileSystem.createReader();
+          this.dirAtual=(reader.localURL);
 
-        reader.readEntries(
-          (entries) => {
-            this.ngZone.run(()=> {
-              this.itensFiltrado = this.filtro(entries);
-            })
-          }, this.handleError);
-      }, this.handleError);
+          reader.readEntries(
+            (entries) => {
+              this.ngZone.run(()=> {
+                this.itensFiltrado = this.filtro(entries);
+              })
+            }, this.handleError);
+        }, this.handleError);
+  }
 }
 
 filtro(pasta){
   let x=true;
   let filtrado;
   this.ItensCompelto = pasta;
-  console.log('antes'+JSON.stringify(pasta));
+  //console.log('antes'+JSON.stringify(pasta));
   //if(completo.hasReadEntries)
   pasta.forEach(element => { //se é um diretorio
     if(element.isDirectory){
@@ -162,6 +154,7 @@ filtro(pasta){
         }
     }
 });
+
   if(x){
     return JSON.parse('[{"isVazio":true}]')
   }
